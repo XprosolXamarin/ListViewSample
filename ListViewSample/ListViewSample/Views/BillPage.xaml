@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             x:Class="ListViewSample.Views.BillPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <zxing:ZXingScannerView Grid.Row="0" x:Name="_scanView" ScanResultCommand="{Binding AddProductCommand}" IsScanning="true"
+                                WidthRequest="200" HeightRequest="200" />
+
+        <StackLayout   Grid.Row="1"  BackgroundColor="#edf2f4">
+            <CollectionView  ItemsSource="{Binding Bills}" x:Name="List" VerticalScrollBarVisibility="Always"  >
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" BackgroundColor="#edf2f4">
+                            <Frame CornerRadius="20" HasShadow="True"  >
+                                <StackLayout>
+                                    <ImageButton BackgroundColor="Transparent" 
+                                                     Source="Delete.png" WidthRequest="20" 
+                                                     HorizontalOptions="EndAndExpand"
+                                                     Aspect="AspectFit" 
+                                                     Command="{Binding BindingContext.RemoveItem, Source={x:Reference List}}" CommandParameter="{Binding}" />
+                                    <Grid >
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--Image View Start-->
+
+                                    <Frame Grid.RowSpan="2" Grid.Column="0"
+                                           CornerRadius="10"
+                                           Padding="-10"
+                                          
+                                          
+                                          >
+                                        <Image
+                               Source="{Binding ImageUrl}"
+                               Aspect="AspectFit"
+                                />
+                                    </Frame>
+                                    <!--Image View End-->
+                                    <StackLayout Grid.Column="1" Grid.RowSpan="2" >
+                                        <Label 
+                                            Text="{Binding Name}"
+                                            FontAttributes="Bold" 
+                                            FontSize="Medium"
+                                            VerticalOptions="Center"
+
+                                            TextColor="Black"
+                                      />
+
+                                        <Label 
+                                            TextColor="Black"
+                                            
+                                            Text="{Binding Details}"
+                               />
+                                       
+                                    </StackLayout>
+
+
+                                    <StackLayout Grid.RowSpan="2"
+                                                 Grid.Column="2" >
+
+
+
+                                            <Label TextColor="Black" HorizontalOptions="CenterAndExpand" >
+                                                <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Rs/-"  />
+                                                            <Span Text="{Binding totalpurchased}" FontAttributes="Bold" FontSize="Small" TextColor="Green"/>
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Frame  CornerRadius="20" BackgroundColor="#edf2f4"  Padding="5, 0" HorizontalOptions="CenterAndExpand">
+                                            <StackLayout Orientation="Horizontal" >
+                                                <Label Text="-" FontSize="Title"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Padding="5, 0">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.DecreaseQtyCommand, Source={x:Reference List}}" CommandParameter="{Binding}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                                <Label Text="{Binding purchasedQty, Mode=TwoWay}" FontFamily="ThemeFont" FontSize="Small" VerticalOptions="CenterAndExpand"/>
+
+                                                <Label Text="+"  FontSize="Title" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Padding="5, 0">
+                                                    <Label.GestureRecognizers>
+
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.IncreaseQtyCommand, Source={x:Reference List}}" CommandParameter="{Binding}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                        </Frame>
+
+
+
+
+                                    </StackLayout>
+
+
+
+                                </Grid>
+                                    </StackLayout>
+                            </Frame>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <BoxView HeightRequest="1" BackgroundColor="DeepSkyBlue"
+               HorizontalOptions="FillAndExpand"/>
+
+
+
+
+
+            <StackLayout Orientation="Horizontal" Padding="10,0">
+
+
+                <Label HorizontalOptions="StartAndExpand"  TextColor="Black" FontAttributes="Bold">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="TotalItems:" />
+                                <Span Text="50" TextColor="Green"  FontSize="Small"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label HorizontalOptions="EndAndExpand"  TextColor="Black" FontAttributes="Bold">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="TotalBill:" />
+                                <Span Text="1000" TextColor="Green" FontSize="Small"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+            <Button Text="Place Order" TextColor="White" BackgroundColor="DeepSkyBlue"  />
+        </StackLayout>
+    </Grid>
+</ContentPage>
